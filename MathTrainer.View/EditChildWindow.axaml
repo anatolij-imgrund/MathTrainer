@@ -1,0 +1,81 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="800"
+        x:Class="MathTrainer.View.EditChildWindow"
+        Title="Einstellungen"
+        WindowStartupLocation="CenterOwner"
+        Width="450" Height="800"
+        CanResize="False"
+        FontFamily="{StaticResource ChildFont}">
+  
+  <Window.Styles>
+         <Style Selector="Button.ColorButton">
+            <Setter Property="Width" Value="40"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Margin" Value="3"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="CornerRadius" Value="20"/> </Style>
+         <Style Selector="Button.ColorButton.Selected">
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="BorderThickness" Value="3"/>
+        </Style>
+         <Style Selector="Image.AvatarImage">
+            <Setter Property="Width" Value="78"/>
+            <Setter Property="Height" Value="78"/>
+            <Setter Property="Margin" Value="5"/>
+         </Style>
+         <Style Selector="Border.AvatarBorder">
+             <Setter Property="BorderBrush" Value="Transparent"/>
+             <Setter Property="BorderThickness" Value="3"/>
+             <Setter Property="CornerRadius" Value="5"/>
+             <Setter Property="Padding" Value="2"/>
+         </Style>
+         <Style Selector="Border.AvatarBorder.Selected">
+             <Setter Property="BorderBrush" Value="CornflowerBlue"/>
+         </Style>
+    </Window.Styles>
+
+    <StackPanel Spacing="15" Margin="20">
+      <TextBlock Text="Name:" FontSize="26" Foreground="DarkSlateGray"/>
+      <TextBox Name="NameTextBox" FontSize="30" Watermark="Name eingeben"/>
+
+      <TextBlock Text="Bild auswählen:" FontSize="26" Foreground="DarkSlateGray"/>
+      <Border BorderBrush="Gray" BorderThickness="1"
+              CornerRadius="3" Padding="5">
+        <ItemsControl Name="AvatarsItemsControl">
+          <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+              <WrapPanel/>
+            </ItemsPanelTemplate>
+          </ItemsControl.ItemsPanel>
+          <ItemsControl.ItemTemplate>
+            <DataTemplate>
+              <Border Classes="AvatarBorder" PointerPressed="Avatar_PointerPressed">
+                <Image Source="{Binding}" Classes="AvatarImage"/>
+              </Border>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+      </Border>
+
+      <TextBlock Text="Wähle Hintergrundfarbe:" FontSize="26" Foreground="DarkslateGray"/>
+      <WrapPanel Name="ColorButtonsPanel">
+        <Button Tag="#FFFFFFFF" Background="White" Classes="ColorButton" Click="ColorButton_Click"/>
+        <Button Tag="#FFADD8E6" Background="LightBlue" Classes="ColorButton" Click="ColorButton_Click"/>
+        <Button Tag="#FF90EE90" Background="LightGreen" Classes="ColorButton" Click="ColorButton_Click"/>
+        <Button Tag="#FFFFE0B2" Background="#FFE0B2" Classes="ColorButton" Click="ColorButton_Click"/> 
+        <Button Tag="#FFFFB6C1" Background="LightPink" Classes="ColorButton" Click="ColorButton_Click"/>
+        <Button Tag="#FFD8BFD8" Background="Thistle" Classes="ColorButton" Click="ColorButton_Click"/>
+      </WrapPanel>
+
+      <StackPanel Orientation="Horizontal" Spacing="10"
+                  HorizontalAlignment="Right" Margin="0,20,0,0">
+        <Button Name="SaveButton" FontSize="28" Content="Speichern" Click="SaveButton_Click" Background="LightGreen" Foreground="DarkGreen"/>
+        <Button Name="CancelButton" FontSize="28" Content="Ablehnen" Click="CancelButton_Click" Background="LightSalmon" Foreground="DarkRed"/>
+      </StackPanel>
+    </StackPanel>
+
+</Window>

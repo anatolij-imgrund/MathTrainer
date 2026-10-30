@@ -1,0 +1,29 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="200"
+        x:Class="MathTrainer.View.AddChildWindow"
+        Title="Kinderaccount erstellen"
+        WindowStartupLocation="CenterOwner"
+        Width="400" Height="200"
+        CanResize="False"
+        Background="LightBlue">
+
+        <StackPanel Spacing="5" VerticalAlignment="Center">
+            <TextBlock Text="Name des Kindes:" FontFamily="{StaticResource ChildFont}" FontSize="26" Margin="5,0,0,0"/>
+            <TextBox Name="NameTextBox" Watermark="Name eingeben" FontFamily="{StaticResource ChildFont}" FontSize="26" Margin="5,0,5,10"/>
+
+            <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Center" Orientation="Horizontal">
+                <Grid ColumnDefinitions="Auto, Auto" HorizontalAlignment="Stretch">
+                <Button Grid.Column="0" Name="SaveButton" Content="Speichern" HorizontalAlignment="Left"
+                        Click="SaveButton_Click" Background="LightGreen" Foreground="DarkCyan" BorderBrush="Green" BorderThickness="1"
+                        FontSize="26" FontFamily="{StaticResource ChildFont}" HorizontalContentAlignment="Center" Margin="0,5,10,0"/>
+                <Button Grid.Column="1" Name="CancelButton" Content="Ablehnen" HorizontalAlignment="Right"
+                        Click="CancelButton_Click" Background="LightSalmon" Foreground="DarkCyan" BorderBrush="Salmon" BorderThickness="1"
+                        FontSize="26" FontFamily="{StaticResource ChildFont}" HorizontalContentAlignment="Center" Margin="10,5,0,0"/>
+                </Grid>
+            </StackPanel>
+        </StackPanel>
+
+</Window>

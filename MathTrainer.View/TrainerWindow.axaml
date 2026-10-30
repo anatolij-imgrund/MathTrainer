@@ -1,0 +1,192 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:models="using:MathTrainer.Model"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib" mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="700"
+        x:Class="MathTrainer.View.TrainerWindow"
+        Title="Mathe-Trainer"
+        CanResize="False"
+        WindowStartupLocation="CenterOwner"
+        Width="450" Height="800" MinHeight="800"
+        FontFamily="{StaticResource ChildFont}"
+        Foreground="DarkSlateGray">
+
+    <Window.Styles>
+        <Style Selector="Button.SettingsButton">
+            <Setter Property="Padding" Value="10,8"/>
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="FontSize" Value="22"/>
+            <Setter Property="MinWidth" Value="80"/> 
+            <Setter Property="MinHeight" Value="40"/> 
+            <Setter Property="Background" Value="LightGray"/>
+            <Setter Property="BorderBrush" Value="Gray"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="3"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+
+        <Style Selector="Button.SettingsButton.Selected">
+            <Setter Property="Background" Value="CornflowerBlue"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="DarkBlue"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+
+        <Style Selector="Button.KeypadButton">
+            <Setter Property="FontSize" Value="40"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Width" Value="70"/>
+            <Setter Property="Height" Value="70"/>
+            <Setter Property="Margin" Value="1"/>
+            <Setter Property="Foreground" Value="DarkSlateGray"/>
+            <Setter Property="Background" Value="WhiteSmoke"/>
+            <Setter Property="BorderBrush" Value="DarkGray"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="5"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+
+        <Style Selector="Button.KeypadButton:pointerover">
+            <Setter Property="Background" Value="LightCyan"/>
+        </Style>
+
+        <Style Selector="Button.KeypadButton:pressed">
+            <Setter Property="Background" Value="Cyan"/>
+        </Style>
+
+        <Style Selector="Button.KeypadActionButton">
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Height" Value="50"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="Foreground" Value="DarkSlateGray"/>
+            <Setter Property="Background" Value="LightSteelBlue"/>
+            <Setter Property="BorderBrush" Value="SteelBlue"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="5"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+
+        <Style Selector="Button.KeypadActionButton:pointerover">
+            <Setter Property="Background" Value="CornflowerBlue"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+
+        <Style Selector="Button.KeypadActionButton:pressed">
+            <Setter Property="Background" Value="RoyalBlue"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+        
+        <Style Selector="Button.KeypadActionButton.KeypadSubmitButton"> 
+            <Setter Property="Background" Value="LightGreen"/>
+            <Setter Property="BorderBrush" Value="DarkGreen"/>
+        </Style>
+        
+        <Style Selector="Button.KeypadActionButton.KeypadSubmitButton:pointerover">
+            <Setter Property="Background" Value="ForestGreen"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+    </Window.Styles>
+
+    <Border Padding="20">
+        <StackPanel Spacing="15">
+
+            <TextBlock Text="{Binding Title, RelativeSource={RelativeSource AncestorType=Window}}"
+                       FontSize="30" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+
+            <Border Name="SettingArea" BorderBrush="Gray" BorderThickness="1" Padding="15" CornerRadius="5">
+                <StackPanel Spacing="10">
+                    <TextBlock Text="Was willst Du trainieren?" FontSize="18" FontWeight="Medium" Margin="0,0,0,10"/>
+
+                    <TextBlock Text="Zahlenbereich bis:" FontSize="16"/>
+                    <StackPanel Orientation="Horizontal" Spacing="5" Name="RangeButtonsPanel">
+                        <Button Content="10" Tag="Range_10" Click="SettingButton_Click" Classes="SettingsButton"/>
+                        <Button Content="20" Tag="Range_20" Click="SettingButton_Click" Classes="SettingsButton"/>
+                        <Button Content="50" Tag="Range_50" Click="SettingButton_Click" Classes="SettingsButton"/>
+                        <Button Content="100" Tag="Range_100" Click="SettingButton_Click" Classes="SettingsButton"/>
+                    </StackPanel>
+
+                    <TextBlock Text="Übungsart:" Margin="0,10,0,0" FontSize="16"/>
+                    <StackPanel Orientation="Horizontal" Spacing="5" Name="OperationButtonsPanel">
+                        <Button Content="Addition (+)" Tag="Operation_Addition" Click="SettingButton_Click" Classes="SettingsButton"/>
+                        <Button Content="Subtraktion (-)" Tag="Operation_Subtraction" Click="SettingButton_Click" Classes="SettingsButton"/>
+                    </StackPanel>
+
+                    <TextBlock Text="Wird gesucht:" Margin="0,10,0,0" FontSize="16"/>
+                    <StackPanel Orientation="Horizontal" Spacing="5" Name="ModeButtonsPanel">
+                        <Button Content="1 + 2 = ?" Tag="Mode_ResultUnknown" Click="SettingButton_Click" Classes="SettingsButton"/>
+                        <Button Content="1 + ? = 3" Tag="Mode_SecondOperandUnknown" Click="SettingButton_Click" Classes="SettingsButton"/>
+                        <Button Content="? + 2 = 3" Tag="Mode_FirstOperandUnknown" Click="SettingButton_Click" Classes="SettingsButton"/>
+                    </StackPanel>
+
+                    <Button Name="StartTrainingButton"
+                            Content="Los geht's!"
+                            HorizontalAlignment="Center"
+                            Margin="0,20,0,0"
+                            Padding="20,10"
+                            FontSize="20"
+                            Background="LightGreen"
+                            Click="StartTrainingButton_Click"/>
+                </StackPanel>
+            </Border>
+
+            <Border Name="TrainingArea" BorderBrush="Gray" BorderThickness="1" Padding="15" CornerRadius="5">
+                 <StackPanel Spacing="10">
+                    <TextBlock Text="Übung" FontSize="16" FontWeight="Medium" HorizontalAlignment="Center"/>
+                    <TextBlock Name="ProblemTextBlock" Text="Beispiel: 5 + 3 = ?" FontSize="40" HorizontalAlignment="Center" Margin="0,5,0,10"/>
+                    
+                    <TextBox Name="AnswerTextBox" FontSize="38" 
+                             HorizontalAlignment="Center" 
+                             Width="150" MinHeight="50" Foreground="DarkSlateGray"
+                             TextAlignment="Center" IsReadOnly="True"
+                             Focusable="False" Padding="5" BorderThickness="1"/>
+                    
+                    <StackPanel Name="KeypadPanel" HorizontalAlignment="Center"
+                                Spacing="5" Margin="0,10,0,0">
+                        <StackPanel Orientation="Horizontal" Spacing="5" HorizontalAlignment="Center">
+                            <Button Content="1" Classes="KeypadButton" Click="KeypadButton_Click"/>
+                            <Button Content="2" Classes="KeypadButton" Click="KeypadButton_Click"/>
+                            <Button Content="3" Classes="KeypadButton" Click="KeypadButton_Click"/>
+                            <Button Content="4" Classes="KeypadButton" Click="KeypadButton_Click"/>
+                            <Button Content="5" Classes="KeypadButton" Click="KeypadButton_Click"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Spacing="5" HorizontalAlignment="Center">
+                            <Button Content="6" Classes="KeypadButton" Click="KeypadButton_Click"/>
+                            <Button Content="7" Classes="KeypadButton" Click="KeypadButton_Click"/>
+                            <Button Content="8" Classes="KeypadButton" Click="KeypadButton_Click"/>
+                            <Button Content="9" Classes="KeypadButton" Click="KeypadButton_Click"/>
+                            <Button Content="0" Classes="KeypadButton" Click="KeypadButton_Click"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Spacing="5" HorizontalAlignment="Center" Margin="0,10,0,0">
+                            <Button Name="DeleteButton" Content="Löschen" Classes="KeypadActionButton" Click="DeleteButton_Click" MinWidth="120"/>
+                            <Button Name="SubmitAnswerButton" Content="Antworten" Classes="KeypadActionButton KeypadSubmitButton" Click="SubmitAnswerButton_Click" MinWidth="120"/>
+                        </StackPanel>
+                    </StackPanel>
+                    
+                    <TextBlock Name="FeedbackTextBlock" Text="" FontSize="16" HorizontalAlignment="Center" Margin="0,5,0,5"/>
+
+                    <TextBlock Text="Dein Progress:" HorizontalAlignment="Left" Margin="0,5,0,0" FontSize="16"/>
+                    <ProgressBar Name="CorrectAnswersProgressBar" Minimum="0" Maximum="100" Value="0" Height="20"/>
+                    <TextBlock Name="ScoreTextBlock" Text="Punkte: 0  Medalien: 0" HorizontalAlignment="Left" FontSize="16"/>
+
+                    <StackPanel>
+                        <Grid ColumnDefinitions="*, Auto">
+                            <TextBlock Name="TimerTextBlock" Grid.Column="0"
+                                       Text="Zeit: 10" FontSize="20" FontWeight="Bold" 
+                                       Foreground="OrangeRed" Margin="0,10,0,0"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"/>
+                            <Button Name="StopTrainingButton" Grid.Column="1" HorizontalContentAlignment="Center"
+                                    Content="Stop" HorizontalAlignment="Right" VerticalContentAlignment="Center"
+                                    Margin="0,10,0,0" FontSize="20" MinWidth="120" Foreground="DarkSlateGray"/>
+                        </Grid>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </Border>
+</Window>

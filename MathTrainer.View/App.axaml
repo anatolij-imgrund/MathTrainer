@@ -1,0 +1,38 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="MathTrainer.View.App"
+             RequestedThemeVariant="Default">
+             <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
+
+    <Application.Styles>
+        <FluentTheme />
+    </Application.Styles>
+
+    <Application.Styles>
+
+        <Style Selector="Button.SettingsButton">
+        <Setter Property="Padding" Value="10,8"/>
+        <Setter Property="Margin" Value="2"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Background" Value="LightGray"/>
+        <Setter Property="BorderBrush" Value="Gray"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="3"/>
+    </Style>
+
+    <Style Selector="Button.SettingsButton.Selected">
+        <Setter Property="Background" Value="CornflowerBlue"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="BorderBrush" Value="DarkBlue"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+    </Style>
+
+    </Application.Styles>
+
+    <Application.Resources>
+        <FontFamily x:Key="ChildFont">
+            avares://MathTrainer.View/Assets/Fonts/Playpen/static/PlaypenSans-Bold.ttf#Playpen Sans Bold
+        </FontFamily>
+    </Application.Resources>
+
+</Application>

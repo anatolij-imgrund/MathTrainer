@@ -1,0 +1,127 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:models="using:MathTrainer.Model"
+        xmlns:converters="using:MathTrainer.View.Converters"
+        mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="800"
+        x:Class="MathTrainer.View.MainWindow"
+        Title="MathTrainer"
+        CanResize="False"
+        WindowStartupLocation="CenterScreen"
+        Width="450" Height="800"
+        Background="CornflowerBlue"
+        Icon="avares://MathTrainer.View/Assets/Icon/MathTrainer.ico">
+
+    <Window.Resources>
+        <converters:AssetUriToBitmapConverter x:Key="AssetUriToBitmap"/>
+    </Window.Resources>
+
+    <Window.Styles>
+        <Style Selector="Button.SmallButton">
+            <Setter Property="Padding" Value="5,3"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Margin" Value="2"/>
+        </Style>
+    </Window.Styles>
+
+<Grid RowDefinitions="Auto, *, Auto" ColumnDefinitions="*">
+
+        <Button Name="AddRewardButton" Height="40" Width="40" CornerRadius="20"
+                Content="🏆" HorizontalAlignment="Left" FontSize="20"
+                VerticalAlignment="Top" Background="LightSkyBlue"
+                HorizontalContentAlignment="Center" Padding="1,0,0,2"
+                VerticalContentAlignment="Center"
+                Click="AddRewardButton_Click" Margin="10"/>
+
+        <Button Name="AddChildButton" Height="40" Width="40" CornerRadius="20"
+                Content="➕" HorizontalAlignment="Right" FontSize="20"
+                VerticalAlignment="Top" Background="LightSkyBlue"
+                HorizontalContentAlignment="Center" Padding="1,0,0,2"
+                VerticalContentAlignment="Center"
+                Click="AddChildButton_Click" Margin="10"/>
+
+        <StackPanel Grid.Row="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Spacing="10">
+
+            <Button Name="ShowProfilesButton" 
+                    CornerRadius="10" BorderBrush="LightBlue" Background="LightBlue"
+                    Width="400" Height="400" Padding="0" BorderThickness="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Click="ShowProfilesButton_Click">
+                <Image Source="/Assets/Avatars/default_avatar.png"
+                        Stretch="Uniform"
+                        Margin="10"/>
+            </Button>
+
+            <StackPanel Name="ProfilesPanel"
+                        IsVisible="False"
+                        Spacing="10"
+                        Margin="0,20,0,0">
+
+                <ListBox Name="ChildrenListBox"
+                         Margin="0,0,0,10"
+                         Height="290"
+                         SelectionChanged="ChildrenListBox_SelectionChanged"
+                         Background="Transparent"
+                         Padding="0">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate x:DataType="models:Child">
+                            <Border BorderBrush="LightGray" BorderThickness="1" Padding="5" CornerRadius="3" MinWidth="400" Margin="0">
+                                <Grid ColumnDefinitions="Auto, *,Auto, Auto, Auto, Auto">
+                                    <Image Grid.Column="0"
+                                           Source="{Binding AvatarImagePath, Converter={StaticResource AssetUriToBitmap}}"
+                                           Width="60" Height="60" Margin="0,0,10,0"
+                                           Stretch="UniformToFill"/>
+                                    <Grid Grid.Column="1" RowDefinitions="*, Auto">
+                                        <TextBlock Grid.Row="0"
+                                            Text="{Binding Name}"
+                                            FontSize="20"
+                                            FontFamily="{StaticResource ChildFont}"
+                                            Foreground="WhiteSmoke"
+                                            VerticalAlignment="Center"/>
+                                        <Grid Grid.Row="1" ColumnDefinitions="Auto, Auto">
+                                            <TextBlock Grid.Column="0"
+                                                Text="{Binding Medals}"
+                                                FontSize="16"
+                                                Foreground="WhiteSmoke"
+                                                FontFamily="{StaticResource ChildFont}"
+                                                VerticalAlignment="Center"/>
+                                            <TextBlock Grid.Column="1"
+                                                Text="🏅"
+                                                FontSize="14"
+                                                VerticalAlignment="Center"/>
+                                        </Grid>
+                                    </Grid>
+                                    <Button Grid.Column="2" Height="40" Width="40" CornerRadius="20"
+                                            Content="✅" FontSize="20" Background="LightSkyBlue" Name="LoginButton"
+                                            Classes="SmallButton" HorizontalContentAlignment="Center"
+                                            ToolTip.Tip="Training beginnen" VerticalContentAlignment="Center"
+                                            DataContext="{Binding}" Click="LoginButton_Click" IsEnabled="{Binding $parent[ListBoxItem].IsSelected}"/>
+                                    <Button Grid.Column="3" Height="40" Width="40" CornerRadius="20"
+                                            Content="🎁" FontSize="20" Background="LightSkyBlue"
+                                            Classes="SmallButton" HorizontalContentAlignment="Center"
+                                            ToolTip.Tip="Belohnungen" VerticalContentAlignment="Center"
+                                            DataContext="{Binding}" Click="RewardsButton_Click" IsEnabled="{Binding $parent[ListBoxItem].IsSelected}"/>
+                                    <Button Grid.Column="4" Height="40" Width="40" CornerRadius="20"
+                                            Content="✏️" FontSize="20" Background="LightSkyBlue"
+                                            Classes="SmallButton" HorizontalContentAlignment="Center"
+                                            ToolTip.Tip="Bearbeiten" VerticalContentAlignment="Center"
+                                            DataContext="{Binding}" Click="EditButton_Click" IsEnabled="{Binding $parent[ListBoxItem].IsSelected}"/>
+                                    <Button Grid.Column="5" Height="40" Width="40" CornerRadius="20"
+                                            Content="🗑️" FontSize="20" Background="LightSkyBlue"
+                                            Classes="SmallButton" HorizontalContentAlignment="Center"
+                                            ToolTip.Tip="Löschen" VerticalContentAlignment="Center"
+                                            DataContext="{Binding}" Click="DeleteButton_Click" IsEnabled="{Binding $parent[ListBoxItem].IsSelected}"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>

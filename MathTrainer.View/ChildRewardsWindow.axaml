@@ -1,0 +1,107 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:models="using:MathTrainer.Model"
+        xmlns:converters="using:MathTrainer.View.Converters"
+        mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="800"
+        x:Class="MathTrainer.View.ChildRewardsWindow"
+        Title="Meine Belohnungen"
+        WindowStartupLocation="CenterOwner"
+        Width="450" Height="800"
+        CanResize="False">
+
+    <Window.Resources>
+        <converters:AssetUriToBitmapConverter x:Key="AssetUriToBitmap"/>
+        <converters:RequestStatusToStringConverter x:Key="StatusToStringConverter"/>
+    </Window.Resources>
+
+    <Window.Styles>
+        <Style Selector="Border.RewardCard">
+            <Setter Property="Width" Value="150"/>
+            <Setter Property="MinHeight" Value="200"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="LightGray"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="BoxShadow" Value="6 6 10 -2 LightGray"/>
+        </Style>
+        <Style Selector="Button.RequestButton">
+            <Setter Property="Padding" Value="8,4"/>
+            <Setter Property="Background" Value="Gold"/>
+            <Setter Property="BorderBrush" Value="Goldenrod"/>
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+         <Style Selector="Button.RequestButton:disabled">
+            <Setter Property="Background" Value="LightGray"/>
+            <Setter Property="BorderBrush" Value="Gray"/>
+            <Setter Property="Opacity" Value="0.6"/>
+        </Style>
+    </Window.Styles>
+
+    <Grid RowDefinitions="Auto, *, Auto" Margin="15">
+        <Border Grid.Row="0" BorderBrush="Gray" BorderThickness="0,0,0,1" Padding="10" Margin="0,0,0,10">
+            <StackPanel Orientation="Horizontal" Spacing="15" HorizontalAlignment="Center">
+                 <TextBlock Name="ChildNameTextBlock" Text="Name" FontSize="20" FontWeight="Bold"/>
+                 <TextBlock Name="MedalsTextBlock" Text="Medalien: 0" FontSize="20" FontWeight="Bold"/>
+                 <TextBlock Text=" 🏅" FontSize="20" FontWeight="Bold"/>
+            </StackPanel>
+        </Border>
+
+        <ScrollViewer Grid.Row="1">
+            <ItemsControl Name="AvailableRewardsItemsControl">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel HorizontalAlignment="Center"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>    
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="models:RewardView">
+                        <Border Classes="RewardCard">
+                            <StackPanel Spacing="5" HorizontalAlignment="Center">
+                                <Image Source="{Binding ImagePath, Converter={StaticResource AssetUriToBitmap}}"
+                                       Width="100" Height="100" Margin="0,0,0,10" Stretch="Uniform"/>
+                                <TextBlock Text="{Binding Name}" FontFamily="{StaticResource ChildFont}" TextWrapping="Wrap" TextAlignment="Center"/>
+                                <TextBlock TextAlignment="Center">
+                                    <Run Text="Preis: "/>
+                                    <Run Text="{Binding Price}"/>
+                                    <Run Text=" 🏅"/>
+                                </TextBlock>
+                                <Button Grid.Row="1"
+                                        Content="Bekommen"
+                                        Classes="RequestButton"
+                                        DataContext="{Binding}"
+                                        Click="RequestButton_Click"
+                                        IsEnabled="{Binding IsAffordable}"/>            
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+
+        <StackPanel Grid.Row="2" Margin="0,15,0,0">
+            <TextBlock Text="Meine Belohnungen" FontSize="18" Margin="0,0,0,5"/>
+            <ListBox Name="MyRequestsListBox" Height="180">
+                <ListBox.ItemTemplate>
+                    <DataTemplate x:DataType="models:RewardRequest">
+                        <Border BorderBrush="LightGray" BorderThickness="1" Padding="10" CornerRadius="3" MinWidth="200" Margin="2">
+                            <StackPanel>
+                                <TextBlock Text="{Binding RewardName}" FontWeight="Bold"/>
+                                <TextBlock>
+                                    <Run Text="Status: "/>
+                                    <Run Text="{Binding Status, Converter={StaticResource StatusToStringConverter}}"/>
+                                    <Run Text=" ("/>
+                                    <Run Text="{Binding RequestDate, StringFormat='dd.MM.yy'}"/>
+                                    <Run Text=")"/>
+                                </TextBlock>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </StackPanel>
+    </Grid>
+</Window>

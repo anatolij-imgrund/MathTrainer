@@ -1,0 +1,51 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:models="using:MathTrainer.Model"
+        xmlns:converters="using:MathTrainer.View.Converters"
+        mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="800"
+        x:Class="MathTrainer.View.RewardRequestsWindow"
+        Title="Bestellungen"
+        WindowStartupLocation="CenterOwner"
+        Width="450" Height="800"
+        CanResize="False">
+    
+    <Window.Styles>
+        <Style Selector="Button.IssueButton">
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="Background" Value="LightGreen"/>
+            <Setter Property="BorderBrush" Value="DarkGreen"/>
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+    </Window.Styles>
+    <Grid RowDefinitions="Auto, *" Margin="10">
+        <TextBlock Grid.Row="0" Text="Bestellte Belohnungen:" FontSize="18" FontWeight="Bold" Margin="0,0,0,10"/>
+        <TextBlock Grid.Row="1" Name="NoRequestsTextBlock" DockPanel.Dock="Top" Text="Es gibt keine Bestellungen." IsVisible="False" HorizontalAlignment="Center" Margin="20"/>
+
+        <ListBox Grid.Row="1" Name="RequestsListBox">
+            <ListBox.ItemTemplate>
+                <DataTemplate x:DataType="models:RewardRequest">
+                    <Border BorderBrush="LightGray" BorderThickness="1" Padding="10" CornerRadius="3" MinWidth="450" Margin="2">
+                        <Grid ColumnDefinitions="*, Auto">
+                            <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                                <TextBlock FontSize="16" FontWeight="Bold" Text="{Binding RewardName}"/>
+                                <TextBlock>
+                                    <Run Text="Bestellt von: "/>
+                                    <Run Text="{Binding ChildName}" FontWeight="SemiBold"/>
+                                    <Run Text=" ("/><Run Text="{Binding RequestDate, StringFormat='dd.MM.yyyy HH:mm'}"/><Run Text=")"/>
+                                </TextBlock>
+                            </StackPanel>
+                            <Button Grid.Column="1"
+                                    Content="✅ Ausgegeben"
+                                    Classes="IssueButton"
+                                    DataContext="{Binding}"
+                                    Click="IssueButton_Click"/>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+    </Grid>
+</Window>

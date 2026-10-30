@@ -1,0 +1,120 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:models="using:MathTrainer.Model"
+        xmlns:converters="using:MathTrainer.View.Converters"
+        mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="800"
+        x:Class="MathTrainer.View.EditRewardWindow"
+        Title="Einstellungen"
+        WindowStartupLocation="CenterOwner"
+        Width="450" Height="800"
+        CanResize="False">
+
+    <Window.Resources>
+        <converters:AssetUriToBitmapConverter x:Key="AssetUriToBitmap"/>
+    </Window.Resources>
+  
+  <Window.Styles>
+         <Style Selector="Image.AvatarImage">
+            <Setter Property="Width" Value="75"/>
+            <Setter Property="Height" Value="75"/>
+            <Setter Property="Margin" Value="5"/>
+         </Style>
+         <Style Selector="Border.AvatarBorder">
+             <Setter Property="BorderBrush" Value="Transparent"/>
+             <Setter Property="BorderThickness" Value="3"/>
+             <Setter Property="CornerRadius" Value="5"/>
+             <Setter Property="Padding" Value="2"/>
+         </Style>
+         <Style Selector="Border.AvatarBorder.Selected">
+             <Setter Property="BorderBrush" Value="CornflowerBlue"/>
+         </Style>
+         <Style Selector="Button.SmallButton">
+            <Setter Property="Padding" Value="5,3"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Margin" Value="2"/>
+        </Style>
+    </Window.Styles>
+  <StackPanel>
+    <StackPanel Spacing="15" Margin="20">
+      <TextBlock Text="Belohnung:"/>
+      <TextBox Name="RewardTextBox" Watermark="Name (Beschreibung) eingeben"/>
+
+      <TextBlock Text="Preis:"/>
+      <NumericUpDown Name="RewardCostBox" Value="1" Minimum="1" Maximum="100" FormatString="0"/>
+
+      <TextBlock Text="Bild auswählen:"/>
+      <Border BorderBrush="Gray" BorderThickness="1"
+              CornerRadius="3" Padding="5">
+        <ItemsControl Name="RewardsItemsControl">
+          <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+              <WrapPanel/>
+            </ItemsPanelTemplate>
+          </ItemsControl.ItemsPanel>
+          <ItemsControl.ItemTemplate>
+            <DataTemplate>
+              <Border Classes="AvatarBorder" PointerPressed="RewardImg_PointerPressed">
+                <Image Source="{Binding}" Classes="AvatarImage"/>
+              </Border>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+      </Border>
+      <Grid ColumnDefinitions="*,*">
+      <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="10"
+                  HorizontalAlignment="Left" Margin="0,5,0,0">
+        <Button Name="ShowRequestsButton" Content="Bestellungen" Click="ShowRequestsButton_Click" Background="LightSkyBlue"/>
+      </StackPanel>
+      <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="10"
+                  HorizontalAlignment="Right" Margin="0,5,0,0">
+        <Button Name="SaveButton" Content="Speichern" Click="SaveButton_Click" Background="LightGreen"/>
+        <Button Name="ClearButton" Content="Zurücksetzen" Click="ClearButton_Click" Background="LightSalmon"/>
+      </StackPanel>
+      </Grid>
+    </StackPanel>
+    <Border BorderBrush="DarkGray" BorderThickness="1" Margin="20,0,20,0" CornerRadius="3">
+    <ListBox Name="RewardsListBox"
+             Margin="0"
+             Height="390"
+             SelectionChanged="RewardsListBox_SelectionChanged"
+             Background="Transparent"
+             Padding="0">
+      <ListBox.ItemTemplate>
+        <DataTemplate x:DataType="models:Reward">
+          <Border BorderBrush="LightGray" BorderThickness="1" Padding="5" CornerRadius="3" MinWidth="400" Margin="0">
+            <Grid ColumnDefinitions="Auto, *, Auto">
+              <Image Grid.Column="0"
+                     Source="{Binding ImagePath, Converter={StaticResource AssetUriToBitmap}}"
+                     Width="60" Height="60" Margin="0,0,10,0"
+                     Stretch="UniformToFill"/>
+              <Grid Grid.Column="1" RowDefinitions="*, Auto">
+                <TextBlock Grid.Row="0"
+                          Text="{Binding Name}"
+                          FontSize="18"
+                          VerticalAlignment="Center"/>
+                  <Grid Grid.Row="1" ColumnDefinitions="Auto, Auto">
+                    <TextBlock Grid.Column="0"
+                              Text="{Binding Price}"
+                              FontSize="14"
+                              VerticalAlignment="Center"/>
+                    <TextBlock Grid.Column="1"
+                              Text=" 🏅"
+                              FontSize="14"
+                              VerticalAlignment="Center"/>
+                  </Grid>
+              </Grid>
+              <Button Grid.Column="2" Height="40" Width="40" CornerRadius="20"
+                      Content="🗑️" FontSize="20" Background="LightSkyBlue"
+                      Classes="SmallButton" HorizontalContentAlignment="Center"
+                      ToolTip.Tip="Löschen" VerticalContentAlignment="Center"
+                      DataContext="{Binding}" Click="DeleteButton_Click"/>
+            </Grid>
+          </Border>
+        </DataTemplate>
+      </ListBox.ItemTemplate>
+    </ListBox>
+    </Border>
+  </StackPanel>
+</Window>
